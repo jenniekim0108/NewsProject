@@ -23,7 +23,7 @@ interface NewsApiService {
 
     @GET("top-headlines")
     suspend fun getArticlesBySource(
-        @Query("category") category: String,
+//        @Query("category") category: String,
         @Query("source") source: String,
         @Query("apiKey") apiKey: String = "625e6ad1238841fc937c5b9dbf5badbd"
     ): Response<ArticleResponse>
