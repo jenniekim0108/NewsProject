@@ -30,8 +30,6 @@ class ArticleActivity : AppCompatActivity() {
 
         val selectedCategory = intent.getStringExtra("selectedCategory").toString()
         val selectedSource = intent.getStringExtra("selectedSource").toString()
-        Log.d("bbb", selectedSource)
-        Log.d("aaa", selectedCategory)
 
         if (selectedSource != null && selectedCategory != null) {
             viewModel.setDataArticles(selectedCategory, selectedSource)

@@ -28,10 +28,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpView(data: List<Source>){
-//        var listCategory:MutableList<String> = mutableListOf()
-//        for (item in data){
-//            listCategory.add(item.category)
-//        }
         var listCategory = data.map {
             it.category }.distinct()
         val categoryAdapter = CategoryAdapter(listCategory)
