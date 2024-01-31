@@ -7,9 +7,10 @@ import com.example.noncomposeapp.data.response.Source
 import com.example.noncomposeapp.databinding.ItemCategoryBinding
 import com.example.noncomposeapp.databinding.ItemSourceBinding
 
-class SourceAdapter: RecyclerView.Adapter<SourceAdapter.ViewHolder>(){
-
+class SourceAdapter(
     private var data: List<Source> = listOf()
+): RecyclerView.Adapter<SourceAdapter.ViewHolder>(){
+
     private var itemClick: ((Source) -> Unit) = {}
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {

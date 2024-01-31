@@ -7,11 +7,11 @@ import com.example.noncomposeapp.Categories
 import com.example.noncomposeapp.data.response.Article
 import com.example.noncomposeapp.databinding.ItemArticleBinding
 import com.example.noncomposeapp.databinding.ItemCategoryBinding
-import com.example.noncomposeapp.model.NewsModel
 
-class ArticleAdapter: RecyclerView.Adapter<ArticleAdapter.ViewHolder>(){
-
+class ArticleAdapter(
     private var data: List<Article> = listOf()
+): RecyclerView.Adapter<ArticleAdapter.ViewHolder>(){
+
     private var itemClick: ((String) -> Unit) = {}
 
     fun itemClickListener(listener: ((String) -> Unit)) {
