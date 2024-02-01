@@ -40,7 +40,9 @@ class ArticleAdapter(
                             .load(data.urlToImage)
                             .error("https://static.thenounproject.com/png/741653-200.png")
                             .into(binding.ivArticle)
-
+                        setOnClickListener {
+                            itemClick.invoke(data.url)
+                        }
                     }
                 }
             }

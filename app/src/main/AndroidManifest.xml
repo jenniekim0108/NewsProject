@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".presentation.SourceActivity" />
         <activity android:name=".presentation.ArticleActivity" />
+        <activity android:name=".presentation.ArticleDetailActivity" />
     </application>
 
 </manifest>

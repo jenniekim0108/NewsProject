@@ -53,6 +53,15 @@ class ArticleActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@ArticleActivity, RecyclerView.VERTICAL, false)
         }
 
+        articleAdapter.itemClickListener {selectedArticle ->
+            Log.d("tiara", "selek artiikel $selectedArticle")
+
+            val intent = Intent(this, ArticleDetailActivity::class.java)
+            intent.putExtra("selectedArticle", selectedArticle)
+
+            startActivity(intent)
+        }
+
     }
 
     private fun observeViewModel() {
