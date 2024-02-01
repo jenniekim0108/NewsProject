@@ -3,6 +3,7 @@ package com.example.noncomposeapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.noncomposeapp.Categories
 import com.example.noncomposeapp.data.response.Article
 import com.example.noncomposeapp.databinding.ItemArticleBinding
@@ -35,6 +36,11 @@ class ArticleAdapter(
                     itemView.apply {
                         binding.tvTitle.text = data.title
                         binding.tvUrl.text = data.url
+                        Glide.with(context)
+                            .load(data.urlToImage)
+                            .error("https://static.thenounproject.com/png/741653-200.png")
+                            .into(binding.ivArticle)
+
                     }
                 }
             }

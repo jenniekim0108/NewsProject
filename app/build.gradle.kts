@@ -65,6 +65,10 @@ dependencies {
     //web view
     implementation("androidx.webkit:webkit:1.6.0")
 
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.15.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
+
     //    dagger
 //    implementation("com.google.dagger:hilt-android:2.44.2")
 //    kapt("com.google.dagger:hilt-compiler:2.44.2")

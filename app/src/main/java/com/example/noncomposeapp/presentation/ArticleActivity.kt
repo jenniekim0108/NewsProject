@@ -28,6 +28,12 @@ class ArticleActivity : AppCompatActivity() {
         binding = ActivityArticleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.navbar.ivNavbar.setOnClickListener {
+            onBackPressed()
+        }
+        binding.navbar.tvNavbar.text = "Articles"
+
+
         val selectedCategory = intent.getStringExtra("selectedCategory").toString()
         val selectedSource = intent.getStringExtra("selectedSource").toString()
 

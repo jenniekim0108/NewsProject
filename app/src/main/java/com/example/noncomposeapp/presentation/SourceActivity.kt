@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noncomposeapp.ViewModel
@@ -27,6 +28,12 @@ class SourceActivity : AppCompatActivity() {
         binding = ActivitySourceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.navbar.ivNavbar.setOnClickListener {
+            onBackPressed()
+        }
+        binding.navbar.tvNavbar.text = "Sources"
+
+
         selectedCategory = intent.getStringExtra("selectedCategory").toString()
 
         if (selectedCategory != null) {
@@ -42,7 +49,7 @@ class SourceActivity : AppCompatActivity() {
         val sourceAdapter = SourceAdapter(data)
         binding.source.rvSources.apply {
             adapter = sourceAdapter
-            layoutManager = LinearLayoutManager(this@SourceActivity, RecyclerView.VERTICAL, false)
+            layoutManager = GridLayoutManager(this@SourceActivity, 2)
         }
 
         sourceAdapter.itemClickListener { selectedSource ->
