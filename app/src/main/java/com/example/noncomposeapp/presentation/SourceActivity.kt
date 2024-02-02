@@ -6,15 +6,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.noncomposeapp.ViewModel
-import com.example.noncomposeapp.adapter.CategoryAdapter
 import com.example.noncomposeapp.adapter.SourceAdapter
 import com.example.noncomposeapp.data.response.Source
 import com.example.noncomposeapp.databinding.ActivitySourceBinding
-import java.io.Serializable
 
 class SourceActivity : AppCompatActivity() {
 
@@ -46,7 +43,10 @@ class SourceActivity : AppCompatActivity() {
     }
 
     private fun setUpView(data: List<Source>) {
-        val sourceAdapter = SourceAdapter(data)
+        var listSource = data.map {
+            it.name
+        }.distinct()
+        val sourceAdapter = SourceAdapter(listSource)
         binding.source.rvSources.apply {
             adapter = sourceAdapter
             layoutManager = GridLayoutManager(this@SourceActivity, 2)
@@ -63,10 +63,21 @@ class SourceActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.sourceByCategory.observe(this, { source ->
+        viewModel.sourceByCategory.observe(this) { source ->
             setUpView(source)
-        })
+            binding.searchBar.etSearch.addTextChangedListener { text ->
+                val q = text.toString().trim().toLowerCase()
+
+                if (q.length >= 3) {
+                    Log.d("TAG", "observeViewModel: " + q)
+                    viewModel.setDataSearchedSources(source, q)
+                } else {
+                    viewModel.resetSource()
+                }
+            }
+        }
 
     }
+
 
 }

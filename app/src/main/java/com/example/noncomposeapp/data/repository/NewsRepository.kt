@@ -2,48 +2,55 @@ package com.example.noncomposeapp.data.repository
 
 import android.util.Log
 import com.example.noncomposeapp.data.network.NewsApiService
-import com.example.noncomposeapp.data.response.Article
 import com.example.noncomposeapp.data.response.ArticleResponse
-import com.example.noncomposeapp.data.response.Source
 import com.example.noncomposeapp.data.response.SourceResponse
-import retrofit2.Response
 
 class NewsRepository(private val newsApiService: NewsApiService) {
 
-    suspend fun getNewsCategories(): SourceResponse{
-        val test = newsApiService.getCategoryFromSources().body()
-        test?.let {
-            Log.d("test", "Test api: $test")
-            return test
+    suspend fun getNewsCategories(): SourceResponse {
+        return try {
+            val result = newsApiService.getCategoryFromSources().body()
+            result!!
+        } catch (e: Throwable) {
+            Log.d("test", e.message ?: "Unknown error")
+            SourceResponse("error", emptyList())
         }
-        return SourceResponse(
-            status = "error",
-            sources = emptyList()
-        )
     }
 
-    suspend fun getCategorySources(category: String): SourceResponse{
-        val test1 = newsApiService.getSourcesByCategory(category).body()
-        test1?.let {
-            Log.d("test1", "Test api: $test1")
-            return test1
+    suspend fun getCategorySources(category: String): SourceResponse {
+        return try {
+            val result = newsApiService.getSourcesByCategory(category).body()
+            result!!
+        } catch (e: Throwable) {
+            Log.d("test", e.message ?: "Unknown error")
+            SourceResponse("error", emptyList())
         }
-        return SourceResponse(
-            status = "error",
-            sources = emptyList()
-        )
     }
 
-    suspend fun getArticles(category: String, source: String): ArticleResponse{
-        val test2 = newsApiService.getArticlesBySource(category, source).body()
-        test2?.let {
-            Log.d("test2", "Test api: $test2")
-            return test2
+    suspend fun getArticles(category: String, source: String): ArticleResponse {
+        return try {
+            val result = newsApiService.getArticlesBySource(category, source).body()
+            return result!!
+        } catch (e: Throwable) {
+            ArticleResponse("error", 0, emptyList())
         }
-        return ArticleResponse(
-            status = "error",
-            totalResults = 0,
-            articles = emptyList()
-        )
+    }
+
+    suspend fun getSearchedSources(q: String): SourceResponse {
+        return try {
+            val result = newsApiService.getSearchedSourcesData(q).body()
+            result!!
+        } catch (e: Throwable) {
+            SourceResponse("error", emptyList())
+        }
+    }
+
+    suspend fun getSearchedArticles(q: String): ArticleResponse {
+        return try {
+            val result = newsApiService.getSearchedArticlesData(q).body()
+            result!!
+        } catch (e: Throwable) {
+            ArticleResponse("error", 0, emptyList())
+        }
     }
 }

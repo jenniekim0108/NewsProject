@@ -6,16 +6,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noncomposeapp.ViewModel
 import com.example.noncomposeapp.adapter.ArticleAdapter
-import com.example.noncomposeapp.adapter.CategoryAdapter
-import com.example.noncomposeapp.adapter.SourceAdapter
 import com.example.noncomposeapp.data.response.Article
-import com.example.noncomposeapp.data.response.Source
 import com.example.noncomposeapp.databinding.ActivityArticleBinding
-import com.example.noncomposeapp.databinding.ActivitySourceBinding
 
 class ArticleActivity : AppCompatActivity() {
 
@@ -46,14 +43,14 @@ class ArticleActivity : AppCompatActivity() {
 
     }
 
-    private fun setUpView(data: List<Article>){
+    private fun setUpView(data: List<Article>) {
         val articleAdapter = ArticleAdapter(data)
         binding.article.rvArticles.apply {
             adapter = articleAdapter
             layoutManager = LinearLayoutManager(this@ArticleActivity, RecyclerView.VERTICAL, false)
         }
 
-        articleAdapter.itemClickListener {selectedArticle ->
+        articleAdapter.itemClickListener { selectedArticle ->
             Log.d("tiara", "selek artiikel $selectedArticle")
 
             val intent = Intent(this, ArticleDetailActivity::class.java)
@@ -64,10 +61,31 @@ class ArticleActivity : AppCompatActivity() {
 
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModelTest() {
         viewModel.article.observe(this, { article ->
-            setUpView(article)
+            if (article.isNotEmpty()) {
+                setUpView(article)
+            } else {
+                Toast.makeText(applicationContext, "error", Toast.LENGTH_SHORT).show()
+            }
+
         })
+    }
+
+    private fun observeViewModel() {
+        viewModel.article.observe(this) { article ->
+            setUpView(article)
+            binding.searchBar.etSearch.addTextChangedListener { text ->
+                val q = text.toString().trim().toLowerCase()
+
+                if (q.length >= 3) {
+                    viewModel.setDataSearchedArticles(q)
+                } else {
+//                    viewModel.resetSource()
+                }
+            }
+        }
+
     }
 
 }

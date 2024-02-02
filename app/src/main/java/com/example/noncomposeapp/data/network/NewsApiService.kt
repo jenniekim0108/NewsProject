@@ -30,6 +30,15 @@ interface NewsApiService {
         @Query("apiKey") apiKey: String = api
     ): Response<ArticleResponse>
 
+    @GET("everything")
+    suspend fun getSearchedSourcesData(
+        @Query("q") q: String,
+        @Query("apiKey") apiKey: String = api
+    ): Response<SourceResponse>
 
-
+    @GET("everything")
+    suspend fun getSearchedArticlesData(
+        @Query("q") q: String,
+        @Query("apiKey") apiKey: String = api
+    ): Response<ArticleResponse>
 }

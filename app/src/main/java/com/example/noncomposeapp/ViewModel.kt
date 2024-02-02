@@ -1,6 +1,5 @@
 package com.example.noncomposeapp
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,15 +8,15 @@ import com.example.noncomposeapp.data.network.ApiClient
 import com.example.noncomposeapp.data.repository.NewsRepository
 import com.example.noncomposeapp.data.response.Article
 import com.example.noncomposeapp.data.response.Source
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import retrofit2.http.Query
 
-class ViewModel: ViewModel() {
+class ViewModel : ViewModel() {
     private val _source = MutableLiveData<List<Source>>()
     private val _sourceByCategory = MutableLiveData<List<Source>>()
     private val _article = MutableLiveData<List<Article>>()
     private val _progress = MutableLiveData<Boolean>()
+
+    private var originalList: List<Source> = listOf()
 
     val source: LiveData<List<Source>> = _source
     val sourceByCategory: LiveData<List<Source>> = _sourceByCategory
@@ -26,23 +25,43 @@ class ViewModel: ViewModel() {
 
     private val newsRepository = NewsRepository(ApiClient.newsApiService)
 
-    fun setDataCategories(){
+    fun setDataCategories() {
         viewModelScope.launch {
 //            Log.d("tiara", result.toString())
             _source.postValue(newsRepository.getNewsCategories().sources)
         }
     }
 
-    fun setDataSources(category: String){
+    fun setDataSources(category: String) {
         viewModelScope.launch {
-            _sourceByCategory.postValue(newsRepository.getCategorySources(category).sources)
+            originalList = newsRepository.getCategorySources(category).sources
+            _sourceByCategory.postValue(originalList)
         }
     }
 
-    fun setDataArticles(category: String, source: String){
+    fun setDataArticles(category: String, source: String) {
         viewModelScope.launch {
             _article.postValue(newsRepository.getArticles(category, source).articles)
         }
     }
+
+    fun setDataSearchedSources(list: List<Source>, q: String) {
+        viewModelScope.launch {
+            _sourceByCategory.postValue(list.filter {
+                it.name.contains(q, true)
+            })
+        }
+    }
+
+    fun resetSource() {
+        _sourceByCategory.postValue(originalList)
+    }
+
+    fun setDataSearchedArticles(q: String) {
+        viewModelScope.launch {
+            _article.postValue(newsRepository.getSearchedArticles(q).articles)
+        }
+    }
+
 
 }

@@ -1,17 +1,15 @@
 package com.example.noncomposeapp.presentation
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.noncomposeapp.ViewModel
 import com.example.noncomposeapp.adapter.CategoryAdapter
-import com.example.noncomposeapp.databinding.ActivityMainBinding
-import androidx.activity.viewModels
 import com.example.noncomposeapp.data.response.Source
+import com.example.noncomposeapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,9 +25,10 @@ class MainActivity : AppCompatActivity() {
         observeViewModel()
     }
 
-    private fun setUpView(data: List<Source>){
+    private fun setUpView(data: List<Source>) {
         var listCategory = data.map {
-            it.category }.distinct()
+            it.category
+        }.distinct()
         val categoryAdapter = CategoryAdapter(listCategory)
         binding.categories.rvCategories.apply {
             adapter = categoryAdapter
@@ -46,9 +45,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
 
-        viewModel.source.observe(this, {source ->
+        viewModel.source.observe(this, { source ->
 //            Log.d("tir", source.toString())
-            setUpView(source)
+            if (source.isNotEmpty()) {
+                setUpView(source)
+            } else {
+                Toast.makeText(applicationContext, "Error", Toast.LENGTH_SHORT).show()
+            }
+
         })
 
     }

@@ -8,16 +8,16 @@ import com.example.noncomposeapp.databinding.ItemCategoryBinding
 import com.example.noncomposeapp.databinding.ItemSourceBinding
 
 class SourceAdapter(
-    private var data: List<Source> = listOf()
+    private var data: List<String> = listOf()
 ): RecyclerView.Adapter<SourceAdapter.ViewHolder>(){
 
-    private var itemClick: ((Source) -> Unit) = {}
+    private var itemClick: ((String) -> Unit) = {}
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolder(holder, position, payloads)
     }
 
-    fun itemClickListener(listener: ((Source) -> Unit)) {
+    fun itemClickListener(listener: ((String) -> Unit)) {
         itemClick = listener
     }
 
@@ -33,9 +33,9 @@ class SourceAdapter(
 
     inner class ViewHolder(private val binding: ItemSourceBinding):
             RecyclerView.ViewHolder(binding.root){
-                fun bind(data: Source){
+                fun bind(data: String){
                     itemView.apply {
-                        binding.tvSourcce.text = data.name
+                        binding.tvSourcce.text = data
                         setOnClickListener{
                             itemClick.invoke(data)
                         }

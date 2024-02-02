@@ -15,8 +15,6 @@ import com.example.noncomposeapp.databinding.ActivityWebviewBinding
 class ArticleDetailActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityWebviewBinding
-    private val viewModel: ViewModel by viewModels()
-    private var data: List<Article> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +31,7 @@ class ArticleDetailActivity: AppCompatActivity() {
         if (selectedArticle != null) {
             myWebView.apply {
                 settings.javaScriptEnabled = true
-//                webViewClient = WebViewClient()
+                webViewClient = WebViewClient()
                 loadUrl(selectedArticle)
             }
         } else {
