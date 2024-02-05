@@ -27,9 +27,9 @@ class NewsRepository(private val newsApiService: NewsApiService) {
         }
     }
 
-    suspend fun getArticles(category: String, source: String): ArticleResponse {
+    suspend fun getArticles(source: String): ArticleResponse {
         return try {
-            val result = newsApiService.getArticlesBySource(category, source).body()
+            val result = newsApiService.getArticlesBySource(source).body()
             return result!!
         } catch (e: Throwable) {
             ArticleResponse("error", 0, emptyList())

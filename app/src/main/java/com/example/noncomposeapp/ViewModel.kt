@@ -39,9 +39,9 @@ class ViewModel : ViewModel() {
         }
     }
 
-    fun setDataArticles(category: String, source: String) {
+    fun setDataArticles(source: String) {
         viewModelScope.launch {
-            _article.postValue(newsRepository.getArticles(category, source).articles)
+            _article.postValue(newsRepository.getArticles(source).articles)
         }
     }
 
