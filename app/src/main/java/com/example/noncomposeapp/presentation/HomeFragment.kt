@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -56,6 +56,7 @@ class HomeFragment : Fragment() {
 
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, sourceFragment)
+                .addToBackStack(null)
                 .commit()
         }
 
@@ -74,7 +75,4 @@ class HomeFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }

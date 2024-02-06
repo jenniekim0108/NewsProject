@@ -24,7 +24,7 @@ class SourceFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSourceBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -67,6 +67,7 @@ class SourceFragment : Fragment() {
 
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, articleFragment)
+                .addToBackStack(null)
                 .commit()
         }
 
@@ -90,7 +91,4 @@ class SourceFragment : Fragment() {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }

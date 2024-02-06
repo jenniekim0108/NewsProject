@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.example.noncomposeapp.databinding.FragmentWebviewBinding
@@ -16,7 +17,7 @@ class ArticleDetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentWebviewBinding.inflate(layoutInflater)
         return binding.root
 //        return binding.root
@@ -37,6 +38,7 @@ class ArticleDetailFragment : Fragment() {
         binding.webview.apply {
             settings.javaScriptEnabled = true
             webViewClient = WebViewClient()
+            webChromeClient = WebChromeClient()
             loadUrl(selectedArticle)
         }
     }
