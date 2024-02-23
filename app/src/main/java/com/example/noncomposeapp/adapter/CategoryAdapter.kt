@@ -1,5 +1,6 @@
 package com.example.noncomposeapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +34,11 @@ class CategoryAdapter(
         holder.bind(data[position])
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int {
+        val size = data.size
+        Log.d("Tiara", size.toString())
+        return size
+    }
 
     inner class ViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -19,15 +19,9 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.HomeFragment" />
-        <activity android:name=".presentation.ArticleFragment" />
-        <activity android:name=".presentation.SourceFragment" />
-        <activity android:name=".presentation.ArticleDetailFragment" />
     </application>
 
 </manifest>

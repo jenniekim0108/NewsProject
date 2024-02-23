@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.noncomposeapp.presentation.HomeFragment"
+        android:label="HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_sourceFragment"
+            app:destination="@id/sourceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sourceFragment"
+        android:name="com.example.noncomposeapp.presentation.SourceFragment"
+        android:label="SourceFragment">
+
+        <argument
+            android:name="selectedCategory"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_sourceFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.example.noncomposeapp.presentation.ArticleFragment"
+        android:label="ArticleFragment">
+        <action
+            android:id="@+id/action_articleFragment_to_articleDetailFragment"
+            app:destination="@id/articleDetailFragment" />
+        <argument
+            android:name="selectedSource"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleDetailFragment"
+        android:name="com.example.noncomposeapp.presentation.ArticleDetailFragment"
+        android:label="ArticleDetailFragment">
+        <argument
+            android:name="selectedArticle"
+            app:argType="string" />
+    </fragment>
+</navigation>

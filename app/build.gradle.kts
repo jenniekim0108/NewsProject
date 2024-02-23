@@ -1,8 +1,9 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs")
+//    id("io.gitlab.arturbosch.detekt")
 //    id("kotlin-kapt")
 }
 
@@ -21,18 +22,23 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
@@ -74,4 +80,11 @@ dependencies {
 //    kapt("com.google.dagger:hilt-compiler:2.44.2")
 //    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0")
 //    kapt("androidx.hilt:hilt-compiler:1.0.0")
+
+    //navgraph
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
+
+    //safe arguments
+//    classpath ("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
 }

@@ -3,13 +3,13 @@ package com.example.noncomposeapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.noncomposeapp.data.response.Source
-import com.example.noncomposeapp.databinding.ItemCategoryBinding
 import com.example.noncomposeapp.databinding.ItemSourceBinding
+
+//private var itemClick: ((String) -> Unit) = {}
 
 class SourceAdapter(
     private var data: List<String> = listOf()
-): RecyclerView.Adapter<SourceAdapter.ViewHolder>(){
+) : RecyclerView.Adapter<SourceAdapter.ViewHolder>() {
 
     private var itemClick: ((String) -> Unit) = {}
 
@@ -22,25 +22,31 @@ class SourceAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SourceAdapter.ViewHolder {
-        return ViewHolder(ItemSourceBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemSourceBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: SourceAdapter.ViewHolder, position: Int) {
-       holder.bind(data[position])
+        holder.bind(data[position])
     }
 
     override fun getItemCount(): Int = data.size
 
-    inner class ViewHolder(private val binding: ItemSourceBinding):
-            RecyclerView.ViewHolder(binding.root){
-                fun bind(data: String){
-                    itemView.apply {
-                        binding.tvSourcce.text = data
-                        setOnClickListener{
-                            itemClick.invoke(data)
-                        }
-                    }
+    inner class ViewHolder(private val binding: ItemSourceBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: String) {
+            itemView.apply {
+                binding.tvSource.text = data
+                setOnClickListener {
+                    itemClick.invoke(data)
                 }
             }
+        }
+    }
 
 }

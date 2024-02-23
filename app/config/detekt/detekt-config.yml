@@ -1,0 +1,4 @@
+# detekt-config.yml
+config:
+  - ./build/detekt/detekt.yml
+

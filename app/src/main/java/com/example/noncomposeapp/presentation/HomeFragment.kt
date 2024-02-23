@@ -1,78 +1,116 @@
 package com.example.noncomposeapp.presentation
 
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.noncomposeapp.R
 import com.example.noncomposeapp.ViewModel
 import com.example.noncomposeapp.adapter.CategoryAdapter
 import com.example.noncomposeapp.data.response.Source
 import com.example.noncomposeapp.databinding.FragmentHomeBinding
+import com.example.noncomposeapp.presentation.base.BaseFragment
 
-class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+
     private val viewModel: ViewModel by viewModels()
+    private var source: List<Source> = listOf()
 
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(layoutInflater)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentHomeBinding {
+        return FragmentHomeBinding.inflate(layoutInflater)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.d("tiara", "start fragment")
 
+    override fun observeData() {
         viewModel.setDataCategories()
-        observeViewModel()
+        viewModel.source.observe(viewLifecycleOwner) {
+            source = it
+            setupViews()
+        }
     }
 
-    private fun setUpView(data: List<Source>) {
-        var listCategory = data.map {
+    override fun setupViews() {
+        val data = source
+        val listCategory = data.map {
             it.category
         }.distinct()
-        val categoryAdapter = CategoryAdapter(listCategory)
+
+        val categoryAdapter = createAdapter(listCategory)
+        setupRecyclerView(categoryAdapter)
+        setupAdapterClickListener(categoryAdapter)
+    }
+
+    private fun createAdapter(data: List<String>): CategoryAdapter {
+        return CategoryAdapter(data)
+    }
+
+    private fun setupRecyclerView(categoryAdapter: CategoryAdapter) {
         binding.categories.rvCategories.apply {
             adapter = categoryAdapter
             layoutManager = GridLayoutManager(requireActivity(), 2)
         }
-
-        categoryAdapter.itemClickListener { selectedCategory ->
-
-            val bundle = Bundle()
-            bundle.putSerializable("selectedCategory", selectedCategory)
-
-            val sourceFragment = SourceFragment()
-            sourceFragment.arguments = bundle
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, sourceFragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
     }
 
-    private fun observeViewModel() {
-
-        viewModel.source.observe(requireActivity(), { source ->
-            if (source.isNotEmpty()) {
-                setUpView(source)
-            } else {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-            }
-
-        })
-
+    private fun setupAdapterClickListener(categoryAdapter: CategoryAdapter) {
+        categoryAdapter.itemClickListener { selectedCategory ->
+            val sourceFragment =
+                HomeFragmentDirections.actionHomeFragmentToSourceFragment(selectedCategory)
+            findNavController().navigate(sourceFragment)
+        }
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

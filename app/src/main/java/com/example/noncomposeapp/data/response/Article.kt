@@ -10,3 +10,4 @@ data class Article(
     val publishedAt: String,
     val content: String
 )
+

@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.noncomposeapp.data.network.ApiClient
-import com.example.noncomposeapp.data.repository.NewsRepository
+import com.example.noncomposeapp.data.repository.NewsArticlesRepository
+import com.example.noncomposeapp.data.repository.NewsSourcesRepository
 import com.example.noncomposeapp.data.response.Article
 import com.example.noncomposeapp.data.response.Source
 import kotlinx.coroutines.launch
@@ -23,33 +24,35 @@ class ViewModel : ViewModel() {
     val article: LiveData<List<Article>> = _article
     val progress: LiveData<Boolean> = _progress
 
-    private val newsRepository = NewsRepository(ApiClient.newsApiService)
+    private val newsSourcesRepository = NewsSourcesRepository(ApiClient.newsApiService)
+    private val newsArticlesRepository = NewsArticlesRepository(ApiClient.newsApiService)
 
     fun setDataCategories() {
         viewModelScope.launch {
-//            Log.d("tiara", result.toString())
-            _source.postValue(newsRepository.getNewsCategories().sources)
+            _source.postValue(newsSourcesRepository.getCategories().sources)
         }
     }
 
     fun setDataSources(category: String) {
         viewModelScope.launch {
-            originalList = newsRepository.getCategorySources(category).sources
+            originalList = newsSourcesRepository.getCategorySources(category).sources
             _sourceByCategory.postValue(originalList)
         }
     }
 
     fun setDataArticles(source: String) {
         viewModelScope.launch {
-            _article.postValue(newsRepository.getArticles(source).articles)
+            _article.postValue(newsArticlesRepository.getArticles(source).articles)
         }
     }
 
     fun setDataSearchedSources(list: List<Source>, q: String) {
         viewModelScope.launch {
-            _sourceByCategory.postValue(list.filter {
-                it.name.contains(q, true)
-            })
+            _sourceByCategory.postValue(
+                list.filter {
+                    it.name.contains(q, true)
+                }
+            )
         }
     }
 
@@ -59,9 +62,7 @@ class ViewModel : ViewModel() {
 
     fun setDataSearchedArticles(q: String) {
         viewModelScope.launch {
-            _article.postValue(newsRepository.getSearchedArticles(q).articles)
+            _article.postValue(newsArticlesRepository.getSearchedArticles(q).articles)
         }
     }
-
-
 }

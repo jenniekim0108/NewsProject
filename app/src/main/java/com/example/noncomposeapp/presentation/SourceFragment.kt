@@ -5,90 +5,101 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.noncomposeapp.R
 import com.example.noncomposeapp.ViewModel
 import com.example.noncomposeapp.adapter.SourceAdapter
 import com.example.noncomposeapp.data.response.Source
 import com.example.noncomposeapp.databinding.FragmentSourceBinding
+import com.example.noncomposeapp.presentation.base.BaseFragment
+import java.util.Locale
 
-class SourceFragment : Fragment() {
-    private lateinit var binding: FragmentSourceBinding
+class SourceFragment : BaseFragment<FragmentSourceBinding>() {
+
     private val viewModel: ViewModel by viewModels()
+    private var source: List<Source> = listOf()
 
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSourceBinding.inflate(layoutInflater)
-        return binding.root
+        container: ViewGroup?
+    ): FragmentSourceBinding {
+        return FragmentSourceBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupData()
+        observeData()
+    }
+
+    override fun setupViews() {
+
+        val listSource = source.map {
+            it.name
+        }.distinct()
+
+        setupBinding()
+        val sourceAdapter = createAdapter(listSource)
+        setupRecyclerView(sourceAdapter)
+        setAdapterClickListener(sourceAdapter)
+    }
+
+    private fun setupData() {
+        val args: SourceFragmentArgs by navArgs()
+        val selectedCategory = args.selectedCategory
+
+        viewModel.setDataSources(selectedCategory)
+    }
+
+    private fun setupBinding() {
         binding.navbar.ivNavbar.setOnClickListener {
             requireActivity().onBackPressed()
         }
         binding.navbar.tvNavbar.text = "Sources"
-
-
-        val selectedCategory = arguments?.getString("selectedCategory").toString()
-
-        if (selectedCategory != null) {
-            viewModel.setDataSources(selectedCategory)
-            observeViewModel()
-        } else {
-            Toast.makeText(context, "Data is empty", Toast.LENGTH_SHORT).show()
-        }
     }
 
-    private fun setUpView(data: List<Source>) {
-        var listSource = data.map {
-            it.name
-        }.distinct()
-        val sourceAdapter = SourceAdapter(listSource)
+    private fun createAdapter(source: List<String>): SourceAdapter {
+        return SourceAdapter(source)
+    }
+
+    private fun setupRecyclerView(sourceAdapter: SourceAdapter) {
         binding.source.rvSources.apply {
             adapter = sourceAdapter
             layoutManager = GridLayoutManager(requireActivity(), 2)
         }
-
-        sourceAdapter.itemClickListener { selectedSource ->
-            val bundle = Bundle()
-            bundle.putSerializable("selectedSource", selectedSource)
-
-            val articleFragment = ArticleFragment()
-            articleFragment.arguments = bundle
-
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, articleFragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
     }
 
-    private fun observeViewModel() {
-        viewModel.sourceByCategory.observe(requireActivity()) { source ->
-            setUpView(source)
-            binding.searchBar.etSearch.addTextChangedListener { text ->
-                val q = text.toString().trim().toLowerCase()
+    private fun setAdapterClickListener(sourceAdapter: SourceAdapter) {
+        sourceAdapter.itemClickListener { selectedSource ->
+            val articleFragment =
+                SourceFragmentDirections.actionSourceFragmentToArticleFragment(selectedSource)
+            findNavController().navigate(articleFragment)
+        }
+    }
 
-                if (q.length >= 3) {
-                    Log.d("TAG", "observeViewModel: " + q)
-                    viewModel.setDataSearchedSources(source, q)
-                } else {
-                    viewModel.resetSource()
-                }
+    private fun setupSearch() {
+        binding.searchBar.etSearch.addTextChangedListener { text ->
+            val q = text.toString().trim().lowercase(Locale.getDefault())
+
+            if (q.length >= 3) {
+                viewModel.setDataSearchedSources(source, q)
+            } else {
+                viewModel.resetSource()
             }
         }
-
     }
 
+    override fun observeData() {
+        viewModel.sourceByCategory.observe(requireActivity()) {
+            source = it
+            setupViews()
+            Log.d("test", source.toString())
+            setupSearch()
+        }
 
+    }
 }

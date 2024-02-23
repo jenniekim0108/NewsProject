@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private val api: String = "625e6ad1238841fc937c5b9dbf5badbd"
+private val api: String = "4888af1168554a48abf1e2a075e8ef00"
 
 interface NewsApiService {
 
@@ -28,13 +28,13 @@ interface NewsApiService {
     ): Response<ArticleResponse>
 
     @GET("everything")
-    suspend fun getSearchedSourcesData(
+    suspend fun getSearchedSources(
         @Query("q") q: String,
         @Query("apiKey") apiKey: String = api
     ): Response<SourceResponse>
 
     @GET("everything")
-    suspend fun getSearchedArticlesData(
+    suspend fun getSearchedArticles(
         @Query("q") q: String,
         @Query("apiKey") apiKey: String = api
     ): Response<ArticleResponse>

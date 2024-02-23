@@ -1,39 +1,29 @@
 package com.example.noncomposeapp.presentation
 
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.example.noncomposeapp.databinding.FragmentWebviewBinding
+import com.example.noncomposeapp.presentation.base.BaseFragment
 
-class ArticleDetailFragment : Fragment() {
-    private lateinit var binding: FragmentWebviewBinding
+class ArticleDetailFragment : BaseFragment<FragmentWebviewBinding>() {
 
-    override fun onCreateView(
+    override fun createBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentWebviewBinding.inflate(layoutInflater)
-        return binding.root
-//        return binding.root
+        container: ViewGroup?
+    ): FragmentWebviewBinding {
+        return FragmentWebviewBinding.inflate(layoutInflater)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupView()
+    override fun observeData() {
+        setupViews()
     }
 
-    private fun setupView() {
-
-        val selectedArticle = arguments?.getString("selectedArticle").toString()
-
-        Log.d("tiara", "detail artikel $selectedArticle")
+    override fun setupViews() {
+        val args: ArticleDetailFragmentArgs by navArgs()
+        val selectedArticle = args.selectedArticle
 
         binding.webview.apply {
             settings.javaScriptEnabled = true
@@ -42,5 +32,4 @@ class ArticleDetailFragment : Fragment() {
             loadUrl(selectedArticle)
         }
     }
-
 }
