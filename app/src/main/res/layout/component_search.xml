@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,25 +19,38 @@
         app:layout_constraintVertical_bias="0.08"
         app:layout_constraintWidth_percent="0.90">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:src="@drawable/ic_baseline_search"
-            tools:ignore="ContentDescription" />
+        <!--        <com.google.android.material.search.SearchBar-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:backgroundTint="@color/white"-->
+        <!--            app:strokeColor="@color/black"/>-->
 
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_width="0dp"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:hint="Search by title"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:textSize="18sp" />
+            android:hint="Search by title..."
+            android:imeOptions="actionDone" />
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="4dp"-->
+        <!--            android:src="@drawable/ic_baseline_search"-->
+        <!--            tools:ignore="ContentDescription" />-->
+
+        <!--        <EditText-->
+        <!--            android:id="@+id/et_search"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:background="@android:color/transparent"-->
+        <!--            android:hint="Search by title"-->
+        <!--            android:imeOptions="actionDone"-->
+        <!--            android:inputType="text"-->
+        <!--            android:maxLines="1"-->
+        <!--            android:padding="8dp"-->
+        <!--            android:textSize="18sp" />-->
 
     </LinearLayout>
 

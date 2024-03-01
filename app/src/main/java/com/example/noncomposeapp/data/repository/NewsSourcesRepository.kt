@@ -8,7 +8,7 @@ import com.example.noncomposeapp.data.usecase.GetSourcesByCategory
 
 class NewsSourcesRepository(private val newsApiService: NewsApiService) {
 
-    suspend fun getCategories(): SourceResponse {
+    suspend fun getCategories(): SourceResponse? {
         return GetNewsCategories().getData(newsApiService)
     }
 

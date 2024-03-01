@@ -5,7 +5,9 @@ import com.example.noncomposeapp.data.response.ArticleResponse
 import com.example.noncomposeapp.data.usecase.GetArticlesBySource
 import com.example.noncomposeapp.data.usecase.GetSearchedArticles
 
-class NewsArticlesRepository(private val newsApiService: NewsApiService) {
+class NewsArticlesRepository(
+    private val newsApiService: NewsApiService
+) {
 
     suspend fun getArticles(source: String): ArticleResponse {
         return GetArticlesBySource().getData(newsApiService, source)

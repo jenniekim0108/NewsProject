@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.noncomposeapp.ViewModel
 import com.example.noncomposeapp.adapter.CategoryAdapter
 import com.example.noncomposeapp.data.response.Source
 import com.example.noncomposeapp.databinding.FragmentHomeBinding
 import com.example.noncomposeapp.presentation.base.BaseFragment
+import com.example.noncomposeapp.presentation.viewmodel.SourceViewModel
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    private val viewModel: ViewModel by viewModels()
+    private val sourceViewModel: SourceViewModel by viewModels()
     private var source: List<Source> = listOf()
 
     override fun createBinding(
@@ -25,8 +25,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
 
     override fun observeData() {
-        viewModel.setDataCategories()
-        viewModel.source.observe(viewLifecycleOwner) {
+        sourceViewModel.setDataCategories()
+        sourceViewModel.source.observe(viewLifecycleOwner) {
             source = it
             setupViews()
         }

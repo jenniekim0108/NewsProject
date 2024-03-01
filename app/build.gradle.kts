@@ -4,7 +4,7 @@ plugins {
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs")
 //    id("io.gitlab.arturbosch.detekt")
-//    id("kotlin-kapt")
+    id("kotlin-kapt")
 }
 
 android {
@@ -87,4 +87,10 @@ dependencies {
 
     //safe arguments
 //    classpath ("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
+
+    //dagger
+//    final dagger_version = "2.17"
+    implementation("com.google.dagger:dagger:2.17")
+    kapt("com.google.dagger:dagger-compiler:2.17")
+    compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 }
