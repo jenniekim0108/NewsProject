@@ -1,9 +1,10 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-//    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs")
+//    id("io.gitlab.arturbosch.detekt")
+    id("kotlin-kapt")
 }
 
 android {
@@ -21,18 +22,23 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
@@ -58,10 +64,33 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.activity:activity-ktx:1.1.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.5")
+
+    //web view
+    implementation("androidx.webkit:webkit:1.6.0")
+
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.15.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
 
     //    dagger
 //    implementation("com.google.dagger:hilt-android:2.44.2")
 //    kapt("com.google.dagger:hilt-compiler:2.44.2")
 //    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0")
 //    kapt("androidx.hilt:hilt-compiler:1.0.0")
+
+    //navgraph
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
+
+    //safe arguments
+//    classpath ("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
+
+    //dagger
+//    final dagger_version = "2.17"
+    implementation("com.google.dagger:dagger:2.17")
+    kapt("com.google.dagger:dagger-compiler:2.17")
+    compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 }

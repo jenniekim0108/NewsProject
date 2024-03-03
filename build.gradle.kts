@@ -2,5 +2,13 @@
 plugins {
     id("com.android.application") version "7.4.1" apply false
     id("org.jetbrains.kotlin.android") version "1.7.20" apply false
+//    id("io.gitlab.arturbosch.detekt") version "1.23.3" apply false
 //    id("com.google.dagger.hilt.android") version "2.44.2" apply false
+    id("androidx.navigation.safeargs") version "2.4.2" apply false
+}
+
+buildscript {
+    dependencies {
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2")
+    }
 }
